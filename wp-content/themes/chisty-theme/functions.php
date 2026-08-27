@@ -111,8 +111,10 @@
 
     function chistyTheme_public_scripts() {
 
-      // Google maps API Key
-      $apiKey = MAPS_API;
+      // Google maps API Key. Guard against the constant being undefined
+      // (e.g. a production wp-config.php without MAPS_API) so a missing key
+      // never throws a fatal on PHP 8+ and halts page rendering.
+      $apiKey = defined('MAPS_API') ? MAPS_API : '';
       // Styles
       $version = wp_get_theme()->get('Version'); //Updates version from style.css
       wp_enqueue_style( 'baskervville-google-fonts', 'https://fonts.googleapis.com/css2?family=Baskervville:ital@0;1&display=swap', false ); 
@@ -123,14 +125,16 @@
 
       // Scripts
       wp_enqueue_script('main', get_template_directory_uri() . '/dist/scripts/main.js', ['jquery'], wp_rand(), true);
-      wp_enqueue_script(
-        'maps', 
-        'https://maps.googleapis.com/maps/api/js?key=' . $apiKey . '&callback=initMap&v=weekly',
-        ['jquery'],
-        wp_rand(),
-        true,
-        'print'
-      );
+      if ($apiKey) {
+        wp_enqueue_script(
+          'maps',
+          'https://maps.googleapis.com/maps/api/js?key=' . $apiKey . '&callback=initMap&v=weekly',
+          ['jquery'],
+          wp_rand(),
+          true,
+          'print'
+        );
+      }
     }
     add_action('wp_enqueue_scripts', 'chistyTheme_public_scripts');
 
