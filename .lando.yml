@@ -5,5 +5,12 @@ config:
   composer_version: '2.0.7'
   via: apache:2.4
   webroot: .
-  database: mysql:5.7
+  database: mariadb
   xdebug: false
+services:
+  database:
+    type: mariadb:10.6
+    creds:
+      database: wordpress
+      user: wordpress
+      password: wordpress

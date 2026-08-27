@@ -62,8 +62,7 @@ define( 'WP_DEBUG', false );
 
 
 /* Add any custom values between this line and the "stop editing" line. */
-
-
+define( 'MAPS_API', 'AIzaSyD4aWYLz2H8Uj01k-nAms54leSannJEDhA' );
 
 /* That's all, stop editing! Happy publishing. */
 
